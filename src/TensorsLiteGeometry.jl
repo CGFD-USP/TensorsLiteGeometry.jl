@@ -11,7 +11,8 @@ export circle_edge_intersection, polygon_circle_intersection_area
 eval(Expr(:public, :integrate, :angle))
 end
 
-export arc_length, arc_midpoint, spherical_triangle_angles, spherical_polygon_area, in_spherical_triangle
+export arc_length, arc_midpoint, spherical_triangle_circumcenter
+export spherical_triangle_angles, spherical_polygon_area, in_spherical_triangle, spherical_is_obtuse
 export lonlat_to_position, position_to_lonlat, in_spherical_polygon
 export spherical_polygon_moment, spherical_polygon_centroid
 

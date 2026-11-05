@@ -4,6 +4,17 @@
 @inline arc_midpoint(R::Number, a::Vec, b::Vec) = R * precise_normalize((a + b) / 2)
 @inline arc_midpoint(a::Vec, b::Vec) = arc_midpoint(precise_norm(a), a, b)
 
+"""
+    spherical_triangle_circumcenter([radius::Number], a::Vec, b::Vec, c::Vec) -> Vec
+
+Returns the circumcenter position of the spherical triangle formed by points `a`,`b`,`c`.
+"""
+@inline function spherical_triangle_circumcenter(R::Real, a::Vec, b::Vec, c::Vec)
+    return R * precise_normalize((b - a) × (c - a))
+end
+
+@inline spherical_triangle_circumcenter(a::Vec, b::Vec, c::Vec) = spherical_triangle_circumcenter(precise_norm(a), a, b, c)
+
 @inline function spherical_triangle_angles(a::Vec, b::Vec, c::Vec)
 
     n_ab = a × b
@@ -114,6 +125,18 @@ end
 Whether `point` is inside a given spherical polygon with vertices given by `getindex.((vertices,),indices)`
 """
 @inline in_spherical_polygon(p::Vec, points::AbstractVector{T}, indices::VecOrTuple) where {T <: Vec} = in_spherical_polygon(precise_norm(points[indices[1]]), p, points, indices)
+
+"""
+    spherical_is_obtuse([radius::Number], a::Vec, b::Vec, c::Vec) -> Bool
+
+Whether the spherical triangle formed by points `a`,`b`,`c` is obtuse.
+"""
+@inline function spherical_is_obtuse(R::Number, a::Vec, b::Vec, c::Vec)
+    c = spherical_triangle_circumcenter(R, a, b, c)
+    return !in_spherical_triangle(R, c, a, b, c)
+end
+
+@inline spherical_is_obtuse(a::Vec, b::Vec, c::Vec) = spherical_is_obtuse(precise_norm(a), a, b, c)
 
 @inline function spherical_polygon_moment(R::Number, a::Vec, b::Vec, c::Vec)
     ab = precise_normalize(a × b) * angle(a, b)

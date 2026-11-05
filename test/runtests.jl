@@ -145,6 +145,18 @@ end
     @test arc_length(p1, p2) ≈ π * R / 4
     @test arc_midpoint(p2, R * Vec(0.0, 1.0, 0.0)) ≈ p1
 
+    c = spherical_triangle_circumcenter(𝐢, 𝐣, 𝐤)
+
+    @test arc_length(One(), c, 𝐢) ≈ arc_length(One(), c, 𝐣) ≈ arc_length(One(), c, 𝐤)
+
+    @test !spherical_is_obtuse(𝐢, 𝐣, 𝐤)
+
+    let a = Vec3D(0.0, 0.0, 1.0), b = Vec3D(2/sqrt(5), 0.0, 1/sqrt(5)), c = Vec3D(1/sqrt(6), 1/sqrt(6), 2/sqrt(6))
+        r = spherical_triangle_circumcenter(a,b,c)
+        @test arc_length(1, r, a) ≈ arc_length(1, r, b) ≈ arc_length(1, r, c)
+        @test spherical_is_obtuse(a,b,c)
+    end
+
     @test all(spherical_triangle_angles(Vec(0.0, 0.0, R), Vec(R, 0.0, 0.0), Vec(0.0, R, 0.0)) .≈ (π / 2, π / 2, π / 2))
     @test all(spherical_triangle_angles(Vec(0.0, 0.0, R), Vec(R, 0.0, 0.0), R * normalize(Vec(1.0, 1.0, 0.0))) .≈ (π / 4, π / 2, π / 2))
 
