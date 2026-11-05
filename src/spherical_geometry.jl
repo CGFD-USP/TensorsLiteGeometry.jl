@@ -21,7 +21,7 @@
 end
 
 
-@inline spherical_polygon_area(R::Number, a::Vec, b::Vec, c::Vec) = (R * R) * (sum(spherical_triangle_angles(a, b, c)) - π)
+@inline spherical_polygon_area(R::Number, a::Vec, b::Vec, c::Vec) = sign(a ⋅ (b × c)) * (R * R) * (sum(spherical_triangle_angles(a, b, c)) - π)
 
 for N in 4:12
     @eval function spherical_polygon_area(R::Number, vars::Vararg{Vec, $N})
