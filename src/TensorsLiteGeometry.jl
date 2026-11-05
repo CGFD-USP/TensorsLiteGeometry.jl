@@ -29,6 +29,8 @@ const VecOrTuple{T} = Union{<:(NTuple{N, T} where {N}), <:AbstractVector{T}}
 
 @inline precise_norm(a::Vec3D) = hypot(a.x, a.y, a.z)
 
+@inline precise_normalize(a::Vec) = a / precise_norm(a)
+
 #Robust way to compute angles
 #atan(norm(a × b), (a ⋅ b))
 @inline angle(a, b) = atan(precise_norm(a × b), (a ⋅ b))
