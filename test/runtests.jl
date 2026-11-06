@@ -43,6 +43,7 @@ end
 
 @testset "Area calculation" begin
     @test area(a, b, c) ≈ 2.0
+    @test signed_area(a, c, b) ≈ -2.0
     @test area([a, b, c]) ≈ 2.0
     @test area([a, c, b], [1, 3, 2]) ≈ 2.0
     @test area(a, b, c, d) ≈ 4.0
@@ -161,7 +162,7 @@ end
     @test all(spherical_triangle_angles(Vec(0.0, 0.0, R), Vec(R, 0.0, 0.0), R * normalize(Vec(1.0, 1.0, 0.0))) .≈ (π / 4, π / 2, π / 2))
 
     @test spherical_polygon_area(Vec(0.0, 0.0, R), Vec(R, 0.0, 0.0), Vec(0.0, R, 0.0)) ≈ π * R * R / 2
-    @test spherical_polygon_area(Vec(0.0, 0.0, R), Vec(0.0, R, 0.0), Vec(R, 0.0, 0.0)) ≈ -(π * R * R / 2)
+    @test signed_spherical_polygon_area(Vec(0.0, 0.0, R), Vec(0.0, R, 0.0), Vec(R, 0.0, 0.0)) ≈ -(π * R * R / 2)
     @test spherical_polygon_area(Vec(0.0, 0.0, R), Vec(R, 0.0, 0.0), R * normalize(Vec(1.0, 1.0, 0.0)), Vec(0.0, R, 0.0)) ≈ π * R * R / 2
     @test spherical_polygon_area([Vec(0.0, 0.0, R), Vec(R, 0.0, 0.0), R * normalize(Vec(1.0, 1.0, 0.0)), Vec(0.0, R, 0.0)]) ≈ π * R * R / 2
     @test spherical_polygon_area([Vec(0.0, 0.0, R), R * normalize(Vec(1.0, 1.0, 0.0)), Vec(R, 0.0, 0.0), Vec(0.0, R, 0.0)], [1, 3, 2, 4]) ≈ π * R * R / 2

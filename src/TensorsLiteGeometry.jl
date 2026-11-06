@@ -4,7 +4,7 @@ using LinearAlgebra
 using TensorsLite, SmallCollections
 
 export circumcenter, closest, possible_positions_periodic, centroid, mass_centroid
-export area, is_obtuse, in_triangle, in_polygon
+export area, signed_area, is_obtuse, in_triangle, in_polygon
 export circle_edge_intersection, polygon_circle_intersection_area
 
 @static if (VERSION >= v"1.11")
@@ -12,7 +12,7 @@ eval(Expr(:public, :integrate, :angle))
 end
 
 export arc_length, arc_midpoint, spherical_triangle_circumcenter
-export spherical_triangle_angles, spherical_polygon_area, in_spherical_triangle, spherical_is_obtuse
+export spherical_triangle_angles, spherical_polygon_area, signed_spherical_polygon_area, in_spherical_triangle, spherical_is_obtuse
 export lonlat_to_position, position_to_lonlat, in_spherical_polygon
 export spherical_polygon_moment, spherical_polygon_centroid
 
@@ -124,6 +124,8 @@ for N in 4:12
         area(ntuple(i -> vars[i], $(Val(N - 1)))...) + area(vars[1], vars[$(N - 1)], vars[$N])
     end
 end
+
+@inline signed_area(a::TensorsLite.DVec2Dxy, b::TensorsLite.DVec2Dxy, c::TensorsLite.DVec2Dxy) = 𝐤 ⋅ (0.5 * ((b - a) × (c - b)))
 
 @inline function in_triangle(p::Vec, at::Number, a::Vec, b::Vec, c::Vec)
 
